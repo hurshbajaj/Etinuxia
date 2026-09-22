@@ -1,5 +1,6 @@
 import { createPixelBlast } from "./pixel-blast.js";
 import { coverWithPixels, revealFromPixels } from "./pixel-transition.js";
+import { pause, typeInto } from "./ui/text.js";
 
 const FRAME_MS = 220;
 const BATCH_SIZE = 16;
@@ -25,6 +26,7 @@ document.querySelector("[data-etidex-back]").addEventListener("click", async () 
   window.location.href = "index.html";
 });
 
+const panel = document.querySelector("[data-panel]");
 const grid = document.querySelector("[data-grid]");
 const cardsEl = document.querySelector("[data-cards]");
 const sentinel = document.querySelector("[data-sentinel]");
@@ -129,9 +131,28 @@ function cardFor(beast) {
   index.textContent = `#${beast._dup ? randomIndex() : beast.index}`;
 
   card.append(sprite, name, index);
+  card.beastData = beast;
   spriteObserver.observe(sprite);
   return card;
 }
+
+cardsEl.addEventListener("click", (event) => {
+  const card = event.target.closest(".etidex-card");
+  if (card?.beastData) {
+    openDetail(card.beastData, card);
+  }
+});
+
+cardsEl.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") {
+    return;
+  }
+  const card = event.target.closest(".etidex-card");
+  if (card?.beastData) {
+    event.preventDefault();
+    openDetail(card.beastData, card);
+  }
+});
 
 function isFiltering() {
   return Boolean(
@@ -162,12 +183,17 @@ function matches(beast) {
   return true;
 }
 
+function pool() {
+  return isFiltering() ? beasts.filter(matches) : beasts;
+}
+
 function nextBatch(count) {
-  if (!beasts.length) {
+  const source = pool();
+  if (!source.length) {
     return [];
   }
   while (queue.length < count) {
-    const tagged = shuffled(beasts).map((beast) => ({ ...beast, _dup: pass > 0 }));
+    const tagged = shuffled(source).map((beast) => ({ ...beast, _dup: pass > 0 }));
     queue = queue.concat(tagged);
     pass += 1;
   }
@@ -180,7 +206,7 @@ function appendCards(list) {
   cardsEl.appendChild(fragment);
 }
 
-function renderInfinite(reset) {
+function render(reset = true) {
   if (reset) {
     visibleSprites.clear();
     hoveredSprite = null;
@@ -188,35 +214,24 @@ function renderInfinite(reset) {
     queue = [];
     pass = 0;
   }
-  appendCards(nextBatch(BATCH_SIZE));
-}
-
-function renderFiltered() {
-  visibleSprites.clear();
-  hoveredSprite = null;
-  cardsEl.replaceChildren();
-  const results = beasts.filter(matches);
-  if (!results.length) {
+  if (!pool().length) {
     const empty = document.createElement("p");
     empty.className = "etidex-grid__empty";
     empty.textContent = "No beasts match those filters.";
-    cardsEl.appendChild(empty);
+    cardsEl.replaceChildren(empty);
     return;
   }
-  appendCards(results);
-}
-
-function render(reset = true) {
-  if (isFiltering()) {
-    renderFiltered();
-  } else {
-    renderInfinite(reset);
-  }
+  appendCards(nextBatch(BATCH_SIZE));
+  // force a fresh intersection check: IntersectionObserver only fires on
+  // enter/exit transitions, so re-observing after growing the list is the
+  // only way to know whether the sentinel is still in view right now.
+  sentinelObserver.unobserve(sentinel);
+  sentinelObserver.observe(sentinel);
 }
 
 const sentinelObserver = new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && beasts.length && !isFiltering()) {
-    renderInfinite(false);
+  if (entries[0].isIntersecting && beasts.length) {
+    render(false);
   }
 }, { root: grid, rootMargin: "600px" });
 sentinelObserver.observe(sentinel);
@@ -224,18 +239,29 @@ sentinelObserver.observe(sentinel);
 searchInput.addEventListener("input", () => {
   state.query = searchInput.value.trim().toLowerCase();
   render();
+  renderActiveFilters();
 });
 
 searchInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     state.query = searchInput.value.trim().toLowerCase();
     render();
+    renderActiveFilters();
     searchInput.blur();
   }
 });
 
 function uniqueValues(key) {
   return [...new Set(beasts.map((beast) => beast[key]))].sort();
+}
+
+const chipSets = { region: state.regions, element: state.elements, class: state.classes };
+
+function syncChips() {
+  document.querySelectorAll(".etidex-chip").forEach((chip) => {
+    const set = chipSets[chip.dataset.key];
+    chip.classList.toggle("is-active", set.has(chip.dataset.value));
+  });
 }
 
 function buildChips(key, set) {
@@ -246,15 +272,17 @@ function buildChips(key, set) {
     chip.type = "button";
     chip.className = "etidex-chip";
     chip.textContent = value;
+    chip.dataset.key = key;
+    chip.dataset.value = value;
     chip.addEventListener("click", () => {
       if (set.has(value)) {
         set.delete(value);
-        chip.classList.remove("is-active");
       } else {
         set.add(value);
-        chip.classList.add("is-active");
       }
+      syncChips();
       render();
+      renderActiveFilters();
     });
     container.appendChild(chip);
   });
@@ -270,7 +298,53 @@ function setPower(value) {
 powerRange.addEventListener("input", () => {
   setPower(Number(powerRange.value));
   render();
+  renderActiveFilters();
 });
+
+const activeBar = document.querySelector("[data-active]");
+
+function activePill(label, onRemove) {
+  const pill = document.createElement("button");
+  pill.type = "button";
+  pill.className = "etidex-active__pill";
+  const text = document.createElement("span");
+  text.textContent = label;
+  const x = document.createElement("span");
+  x.className = "etidex-active__x";
+  x.textContent = "×";
+  pill.append(text, x);
+  pill.addEventListener("click", () => {
+    onRemove();
+    syncChips();
+    render();
+    renderActiveFilters();
+  });
+  return pill;
+}
+
+function renderActiveFilters() {
+  const pills = [];
+  if (state.query) {
+    pills.push(activePill(`"${searchInput.value.trim()}"`, () => {
+      state.query = "";
+      searchInput.value = "";
+    }));
+  }
+  state.regions.forEach((value) => {
+    pills.push(activePill(value, () => state.regions.delete(value)));
+  });
+  state.elements.forEach((value) => {
+    pills.push(activePill(value, () => state.elements.delete(value)));
+  });
+  state.classes.forEach((value) => {
+    pills.push(activePill(value, () => state.classes.delete(value)));
+  });
+  if (state.minPower > 0) {
+    pills.push(activePill(`Power ${state.minPower}+`, () => setPower(0)));
+  }
+  activeBar.replaceChildren(...pills);
+  activeBar.hidden = pills.length === 0;
+}
 
 function positionFilters() {
   const rect = filtersBtn.getBoundingClientRect();
@@ -334,12 +408,173 @@ filtersClear.addEventListener("click", () => {
   state.query = "";
   searchInput.value = "";
   setPower(0);
-  document.querySelectorAll(".etidex-chip.is-active").forEach((chip) => chip.classList.remove("is-active"));
+  syncChips();
   render();
+  renderActiveFilters();
 });
 
 document.querySelectorAll("[data-view-mode]").forEach((btn) => {
   btn.addEventListener("click", () => closeFilters());
+});
+
+// --- expanded card view: the clicked card grows into a detail panel while
+// the main window fades away, then the description types itself out ---
+
+const DETAIL_SIZE = 260;
+const DETAIL_GAP = 40;
+const DETAIL_PAD = 40;
+
+const detail = document.querySelector("[data-detail]");
+const detailPanel = document.querySelector("[data-detail-panel]");
+const detailSprite = document.querySelector("[data-detail-sprite]");
+const detailCopy = document.querySelector("[data-detail-copy]");
+const detailIndex = document.querySelector("[data-detail-index]");
+const detailTitle = document.querySelector("[data-detail-title]");
+const detailRoles = document.querySelector("[data-detail-roles]");
+const detailFacts = document.querySelector("[data-detail-facts]");
+const detailBody = document.querySelector("[data-detail-body]");
+const detailKinWrap = document.querySelector("[data-detail-kin]");
+const detailKinList = document.querySelector("[data-detail-kinlist]");
+const detailClose = document.querySelector("[data-detail-close]");
+
+let typeToken = { cancelled: true };
+
+function fillDetailCopy(beast) {
+  detailIndex.textContent = `#${beast.index}`;
+  detailTitle.textContent = beast.name;
+
+  detailRoles.replaceChildren(...beast.roles.map((role) => {
+    const span = document.createElement("span");
+    span.className = "etidex-detail__role";
+    span.textContent = role;
+    return span;
+  }));
+
+  const factPairs = [
+    ["Tradition", beast.region],
+    ["Element", beast.element],
+    ["Class", beast.class],
+    ["Power", String(beast.power)],
+  ];
+  detailFacts.replaceChildren(...factPairs.flatMap(([term, value]) => {
+    const dt = document.createElement("dt");
+    dt.textContent = term;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    return [dt, dd];
+  }));
+
+  detailBody.textContent = "";
+
+  if (beast.kin?.length) {
+    detailKinWrap.hidden = false;
+    detailKinList.replaceChildren(...beast.kin.map((name) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "etidex-detail__kinchip";
+      chip.textContent = name;
+      chip.addEventListener("click", () => {
+        const target = beasts.find((b) => b.name === name);
+        if (target) {
+          openDetail(target, null);
+        }
+      });
+      return chip;
+    }));
+  } else {
+    detailKinWrap.hidden = true;
+    detailKinList.replaceChildren();
+  }
+}
+
+async function openDetail(beast, sourceCard) {
+  typeToken.cancelled = true;
+
+  const sourceSprite = sourceCard?.querySelector(".etidex-card__sprite") ?? null;
+  const startRect = (sourceSprite ?? detailSprite).getBoundingClientRect();
+  const startCol = sourceSprite
+    ? sourceSprite.style.getPropertyValue("--sp-col")
+    : detailSprite.style.getPropertyValue("--sp-col");
+  const startRow = sourceSprite
+    ? sourceSprite.style.getPropertyValue("--sp-row")
+    : detailSprite.style.getPropertyValue("--sp-row");
+  const startFrame = sourceSprite
+    ? sourceSprite.style.getPropertyValue("--frame")
+    : detailSprite.style.getPropertyValue("--frame");
+
+  detailSprite.style.setProperty("--sp-col", startCol || "0");
+  detailSprite.style.setProperty("--sp-row", startRow || "0");
+  detailSprite.style.setProperty("--frame", startFrame || "0");
+
+  detailSprite.style.transition = "none";
+  detailSprite.style.left = `${startRect.left}px`;
+  detailSprite.style.top = `${startRect.top}px`;
+  detailSprite.style.width = `${startRect.width}px`;
+  detailSprite.style.height = `${startRect.height}px`;
+
+  detail.hidden = false;
+  panel.classList.add("is-leaving");
+  detailCopy.classList.remove("is-shown");
+  detailSprite.classList.remove("is-hidden");
+
+  fillDetailCopy(beast);
+
+  // force layout so the start rect commits before switching to the target,
+  // otherwise the browser coalesces both states and skips the transition
+  detailSprite.getBoundingClientRect();
+
+  // computed directly (not read off the panel element) since the panel is
+  // still mid-transform at this point and getBoundingClientRect() would
+  // return its scaled-down opening size, not its settled target size
+  const panelWidth = Math.min(940, window.innerWidth * 0.92);
+  const panelHeight = Math.min(560, window.innerHeight * 0.84);
+  const panelLeft = (window.innerWidth - panelWidth) / 2;
+  const panelTop = (window.innerHeight - panelHeight) / 2;
+
+  const spriteLeft = panelLeft + DETAIL_PAD;
+  const spriteTop = panelTop + (panelHeight - DETAIL_SIZE) / 2;
+  const copyLeft = spriteLeft + DETAIL_SIZE + DETAIL_GAP;
+
+  detailCopy.style.left = `${copyLeft}px`;
+  detailCopy.style.top = `${panelTop + DETAIL_PAD}px`;
+  detailCopy.style.width = `${panelLeft + panelWidth - DETAIL_PAD - copyLeft}px`;
+  detailCopy.style.height = `${panelHeight - DETAIL_PAD * 2}px`;
+
+  requestAnimationFrame(() => {
+    detailPanel.classList.add("is-shown");
+    detailSprite.style.transition = "";
+    detailSprite.style.left = `${spriteLeft}px`;
+    detailSprite.style.top = `${spriteTop}px`;
+    detailSprite.style.width = `${DETAIL_SIZE}px`;
+    detailSprite.style.height = `${DETAIL_SIZE}px`;
+  });
+
+  await pause(400);
+  detailCopy.classList.add("is-shown");
+  await pause(180);
+
+  const token = { cancelled: false };
+  typeToken = token;
+  await typeInto(detailBody, beast.body, { delay: 9, token });
+}
+
+async function closeDetail() {
+  typeToken.cancelled = true;
+  detailCopy.classList.remove("is-shown");
+  await pause(80);
+  detailPanel.classList.remove("is-shown");
+  detailSprite.classList.add("is-hidden");
+  panel.classList.remove("is-leaving");
+  await pause(340);
+  detail.hidden = true;
+}
+
+detailClose.addEventListener("click", closeDetail);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !detail.hidden) {
+    closeDetail();
+  }
 });
 
 fetch("src/data/beasts.json")
@@ -350,4 +585,5 @@ fetch("src/data/beasts.json")
     buildChips("element", state.elements);
     buildChips("class", state.classes);
     render(true);
+    renderActiveFilters();
   });

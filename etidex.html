@@ -43,6 +43,7 @@
           </button>
         </div>
       </div>
+      <div class="etidex-active" data-active hidden></div>
       <div class="etidex-grid" data-grid>
         <div class="etidex-cards" data-cards></div>
         <div class="etidex-sentinel" data-sentinel aria-hidden="true"></div>
@@ -75,6 +76,25 @@
         </div>
       </div>
       <button class="etidex-filters__clear" type="button" data-filters-clear>Clear filters</button>
+    </div>
+
+    <div class="etidex-detail" data-detail hidden>
+      <div class="etidex-detail__panel" data-detail-panel></div>
+      <div class="etidex-detail__sprite" data-detail-sprite aria-hidden="true"></div>
+      <div class="etidex-detail__copy" data-detail-copy>
+        <button class="etidex-detail__close" type="button" data-detail-close aria-label="Close">
+          Close
+        </button>
+        <p class="etidex-detail__index" data-detail-index></p>
+        <h1 class="etidex-detail__title" data-detail-title tabindex="-1"></h1>
+        <div class="etidex-detail__roles" data-detail-roles></div>
+        <dl class="etidex-detail__facts" data-detail-facts></dl>
+        <p class="etidex-detail__body" data-detail-body></p>
+        <div class="etidex-detail__kin" data-detail-kin hidden>
+          <p class="etidex-detail__label">Family</p>
+          <div class="etidex-detail__kinlist" data-detail-kinlist></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
