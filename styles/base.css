@@ -1,0 +1,83 @@
+:root {
+  --white: #ffffff;
+  --white-80: rgb(255 255 255 / 0.8);
+  --white-64: rgb(255 255 255 / 0.64);
+  --white-40: rgb(255 255 255 / 0.4);
+  --white-16: rgb(255 255 255 / 0.16);
+  --black: #000000;
+  --glass: rgb(0 0 0 / 0.55);
+  --shadow: 0 1px 14px rgb(0 0 0 / 0.6);
+  --edge: clamp(20px, 3.4vw, 52px);
+  --font: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --size-label: 0.8125rem;
+  --size-body: 1rem;
+  --size-lede: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
+  --size-title: clamp(3rem, 1.6rem + 5.6vw, 6.5rem);
+  --size-hero: clamp(4rem, 1.4rem + 10.4vw, 10.5rem);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: var(--black);
+  overscroll-behavior: none;
+}
+
+body {
+  overflow: hidden;
+  color: var(--white);
+  font-family: var(--font);
+  font-size: var(--size-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+p,
+dl,
+dd,
+ol {
+  margin: 0;
+}
+
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.noscript {
+  position: fixed;
+  left: var(--edge);
+  bottom: var(--edge);
+  z-index: 50;
+}

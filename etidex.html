@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Etidex — Etinuxia</title>
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23000'/%3E%3Ccircle cx='50' cy='50' r='42' fill='none' stroke='%23fff' stroke-width='6'/%3E%3C/svg%3E">
+    <link rel="preload" href="assets/fonts/Satoshi-Black.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Satoshi-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/etidex.css">
+    <script type="module" src="src/etidex.js"></script>
+  </head>
+  <body>
+    <div class="etidex-bg" data-pixel-blast></div>
+
+    <header class="etidex-head">
+      <button class="etidex-back" type="button" data-etidex-back aria-label="Back to Etinuxia">
+        <svg class="etidex-back__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p class="etidex-mark">Etidex</p>
+    </header>
+
+    <section class="etidex-panel" data-panel>
+      <div class="etidex-toolbar">
+        <div class="etidex-search">
+          <svg class="etidex-search__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input class="etidex-search__input" type="search" data-search placeholder="Search the Etidex" aria-label="Search beasts">
+        </div>
+        <div class="etidex-filters">
+          <button class="etidex-filters__btn" type="button" data-filters-btn aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 6H20M7 12H17M10 18H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Filters
+          </button>
+        </div>
+      </div>
+      <div class="etidex-grid" data-grid>
+        <div class="etidex-cards" data-cards></div>
+        <div class="etidex-sentinel" data-sentinel aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <div class="etidex-filters__pop" data-filters-pop hidden>
+      <div class="etidex-filters__group">
+        <p class="etidex-filters__label">Region</p>
+        <div class="etidex-filters__chips" data-chips="region"></div>
+      </div>
+      <div class="etidex-filters__group">
+        <p class="etidex-filters__label">Element</p>
+        <div class="etidex-filters__chips" data-chips="element"></div>
+      </div>
+      <div class="etidex-filters__group">
+        <p class="etidex-filters__label">Class</p>
+        <div class="etidex-filters__chips" data-chips="class"></div>
+      </div>
+      <div class="etidex-filters__group">
+        <p class="etidex-filters__label">Power <span data-power-value>0+</span></p>
+        <input class="etidex-filters__range" type="range" min="0" max="99" step="1" value="0" data-power-range style="--fill: 0%">
+      </div>
+      <div class="etidex-filters__group etidex-filters__group--views">
+        <p class="etidex-filters__label">View as</p>
+        <div class="etidex-filters__views">
+          <button class="etidex-filters__view" type="button" data-view-mode>Pantheon family trees<span>soon</span></button>
+          <button class="etidex-filters__view" type="button" data-view-mode>Timelines<span>soon</span></button>
+          <button class="etidex-filters__view" type="button" data-view-mode>Species relational maps<span>soon</span></button>
+        </div>
+      </div>
+      <button class="etidex-filters__clear" type="button" data-filters-clear>Clear filters</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "etinuxia",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "render": "\"${BLENDER:-/Applications/Blender.app/Contents/MacOS/Blender}\" -b blender/etinuxia.blend --python blender/render.py -- --out blender/renders",
+    "export": "\"${BLENDER:-/Applications/Blender.app/Contents/MacOS/Blender}\" -b blender/etinuxia.blend --python blender/export_web.py",
+    "encode": "python3 scripts/encode.py blender/renders"
+  }
+}

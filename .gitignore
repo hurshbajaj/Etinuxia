@@ -1,0 +1,5 @@
+node_modules/
+.DS_Store
+blender/renders/
+blender/__pycache__/
+*.pyc
