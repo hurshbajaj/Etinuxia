@@ -44,13 +44,38 @@ async function start() {
     onJump: (index) => director.goTo(index),
   });
   const hotspots = new Hotspots($("[data-hotspots]"), {
-    labelFor: (spot) => (spot.goes ? holds[director.indexOf(spot.goes)].title : entries[spot.opens].title),
-    onSelect: (spot) => (spot.goes ? director.goTo(director.indexOf(spot.goes)) : openEntry(spot.opens)),
+    labelFor: (spot) => {
+      if (spot.goes) {
+        return holds[director.indexOf(spot.goes)].title;
+      }
+      return spot.opens === "qilin" ? "Etidex" : entries[spot.opens].title;
+    },
+    onSelect: (spot) => {
+      if (spot.goes) {
+        director.goTo(director.indexOf(spot.goes));
+      } else if (spot.opens === "qilin") {
+        goToEtidex();
+      } else {
+        openEntry(spot.opens);
+      }
+    },
   });
 
   async function openEntry(id) {
     hotspots.hide();
     await copy.openEntry(entries[id], director.hold);
+  }
+
+  async function goToEtidex() {
+    await coverWithPixels();
+    sessionStorage.setItem("etidex:enter", "pixel");
+    window.location.href = "etidex.html";
+  }
+
+  async function goToAtlas() {
+    await coverWithPixels();
+    sessionStorage.setItem("atlas:enter", "pixel");
+    window.location.href = "atlas.html";
   }
 
   async function closeEntry() {
@@ -73,11 +98,8 @@ async function start() {
 
   stage.onAmbientFrame = (frame) => hotspots.follow(frame);
   copy.back.addEventListener("click", closeEntry);
-  copy.etidex.addEventListener("click", async () => {
-    await coverWithPixels();
-    sessionStorage.setItem("etidex:enter", "pixel");
-    window.location.href = "etidex.html";
-  });
+  copy.etidex.addEventListener("click", goToEtidex);
+  copy.atlasLink.addEventListener("click", goToAtlas);
   director.addEventListener("leave", () => {
     document.body.classList.add("is-moving");
     copy.hide();

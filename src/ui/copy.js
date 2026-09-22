@@ -13,6 +13,7 @@ export class Copy {
     this.body = root.querySelector("[data-copy-body]");
     this.back = root.querySelector("[data-copy-back]");
     this.etidex = root.querySelector("[data-copy-etidex]");
+    this.atlasLink = root.querySelector("[data-copy-atlas]");
     this.motion = reducedMotion ? 0 : 1;
     this.entry = null;
   }
@@ -33,6 +34,7 @@ export class Copy {
     if (!token.cancelled) {
       this.#reveal(hold.lede);
       this.etidex.hidden = hold.id !== "bestiary";
+      this.atlasLink.hidden = hold.id !== "atlas";
     }
   }
 
@@ -47,6 +49,7 @@ export class Copy {
     }
     this.root.classList.remove("is-hero");
     this.etidex.hidden = true;
+    this.atlasLink.hidden = true;
     this.#fillFacts(entry.facts);
     this.back.textContent = `Back to ${hold.title}`;
     await typeInto(this.title, entry.title, { delay: TYPE_MS * this.motion, token });
@@ -76,6 +79,7 @@ export class Copy {
     if (!token.cancelled) {
       this.#reveal(hold.lede);
       this.etidex.hidden = hold.id !== "bestiary";
+      this.atlasLink.hidden = hold.id !== "atlas";
     }
   }
 
@@ -93,6 +97,7 @@ export class Copy {
     this.body.classList.remove("is-revealed");
     this.back.hidden = true;
     this.etidex.hidden = true;
+    this.atlasLink.hidden = true;
   }
 
   #fillFacts(facts) {

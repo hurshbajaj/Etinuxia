@@ -482,7 +482,7 @@ body {
   width: min(940px, 92vw);
   height: min(560px, 84vh);
   background: rgb(11 11 16 / 0.6);
-  border: 1px solid rgb(255 255 255 / 0.14);
+  border: 1px solid rgb(255 255 255 / 0.85);
   border-radius: 24px;
   backdrop-filter: blur(28px) saturate(150%);
   -webkit-backdrop-filter: blur(28px) saturate(150%);
@@ -494,6 +494,41 @@ body {
 .etidex-detail__panel.is-shown {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+
+@property --etidex-panel-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.etidex-detail__panel::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--etidex-panel-angle),
+    transparent 0deg,
+    rgb(0 0 0 / 0.9) 60deg,
+    transparent 160deg,
+    transparent 200deg,
+    rgb(0 0 0 / 0.9) 240deg,
+    transparent 340deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: etidex-panel-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes etidex-panel-spin {
+  to {
+    --etidex-panel-angle: 360deg;
+  }
 }
 
 .etidex-detail__sprite {
@@ -508,11 +543,12 @@ body {
   image-rendering: pixelated;
   border-radius: 20px;
   opacity: 1;
-  transition: left 560ms var(--ease-out), top 560ms var(--ease-out), width 560ms var(--ease-out), height 560ms var(--ease-out), opacity 320ms ease;
+  transition: left 560ms var(--ease-out), top 560ms var(--ease-out), width 560ms var(--ease-out), height 560ms var(--ease-out), opacity 1300ms ease;
 }
 
 .etidex-detail__sprite.is-hidden {
   opacity: 0;
+  transition: opacity 320ms ease;
 }
 
 .etidex-detail__copy {

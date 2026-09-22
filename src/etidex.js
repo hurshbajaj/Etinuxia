@@ -427,6 +427,7 @@ const DETAIL_PAD = 40;
 const detail = document.querySelector("[data-detail]");
 const detailPanel = document.querySelector("[data-detail-panel]");
 const detailSprite = document.querySelector("[data-detail-sprite]");
+detailSprite.dataset.frame = "0";
 const detailCopy = document.querySelector("[data-detail-copy]");
 const detailIndex = document.querySelector("[data-detail-index]");
 const detailTitle = document.querySelector("[data-detail-title]");
@@ -438,6 +439,19 @@ const detailKinList = document.querySelector("[data-detail-kinlist]");
 const detailClose = document.querySelector("[data-detail-close]");
 
 let typeToken = { cancelled: true };
+let detailFrameTimer = null;
+
+function startDetailAnimation() {
+  if (detailFrameTimer) {
+    return;
+  }
+  detailFrameTimer = setInterval(() => stepSprite(detailSprite), FRAME_MS);
+}
+
+function stopDetailAnimation() {
+  clearInterval(detailFrameTimer);
+  detailFrameTimer = null;
+}
 
 function fillDetailCopy(beast) {
   detailIndex.textContent = `#${beast.index}`;
@@ -490,20 +504,24 @@ function fillDetailCopy(beast) {
 async function openDetail(beast, sourceCard) {
   typeToken.cancelled = true;
 
+  // switching between beasts while the panel is already open: hide the old
+  // text first and wait for that to finish, so the content swap happens at
+  // the invisible midpoint instead of popping in before the slide-out plays
+  const switchingBeast = detailCopy.classList.contains("is-shown");
+  if (switchingBeast) {
+    detailCopy.classList.remove("is-shown");
+    detailSprite.classList.add("is-hidden");
+    await pause(320);
+  }
+
   const sourceSprite = sourceCard?.querySelector(".etidex-card__sprite") ?? null;
   const startRect = (sourceSprite ?? detailSprite).getBoundingClientRect();
-  const startCol = sourceSprite
-    ? sourceSprite.style.getPropertyValue("--sp-col")
-    : detailSprite.style.getPropertyValue("--sp-col");
-  const startRow = sourceSprite
-    ? sourceSprite.style.getPropertyValue("--sp-row")
-    : detailSprite.style.getPropertyValue("--sp-row");
   const startFrame = sourceSprite
     ? sourceSprite.style.getPropertyValue("--frame")
     : detailSprite.style.getPropertyValue("--frame");
 
-  detailSprite.style.setProperty("--sp-col", startCol || "0");
-  detailSprite.style.setProperty("--sp-row", startRow || "0");
+  detailSprite.style.setProperty("--sp-col", (beast.sprite % 4) * 4);
+  detailSprite.style.setProperty("--sp-row", Math.floor(beast.sprite / 4));
   detailSprite.style.setProperty("--frame", startFrame || "0");
 
   detailSprite.style.transition = "none";
@@ -514,8 +532,7 @@ async function openDetail(beast, sourceCard) {
 
   detail.hidden = false;
   panel.classList.add("is-leaving");
-  detailCopy.classList.remove("is-shown");
-  detailSprite.classList.remove("is-hidden");
+  startDetailAnimation();
 
   fillDetailCopy(beast);
 
@@ -543,6 +560,7 @@ async function openDetail(beast, sourceCard) {
   requestAnimationFrame(() => {
     detailPanel.classList.add("is-shown");
     detailSprite.style.transition = "";
+    detailSprite.classList.remove("is-hidden");
     detailSprite.style.left = `${spriteLeft}px`;
     detailSprite.style.top = `${spriteTop}px`;
     detailSprite.style.width = `${DETAIL_SIZE}px`;
@@ -567,6 +585,7 @@ async function closeDetail() {
   panel.classList.remove("is-leaving");
   await pause(340);
   detail.hidden = true;
+  stopDetailAnimation();
 }
 
 detailClose.addEventListener("click", closeDetail);
