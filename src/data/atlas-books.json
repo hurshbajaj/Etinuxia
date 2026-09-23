@@ -1,0 +1,186 @@
+[
+  {
+    "id": "norse",
+    "title": "Tales of the Nine Worlds",
+    "culture": "Norse",
+    "region": "Scandinavia",
+    "spine": "#3b4a5a",
+    "cover": "#2a3644",
+    "accent": "#c7d4e0",
+    "tales": [
+      {
+        "title": "The Binding of Fenrir",
+        "body": "The wolf Fenrir grew so monstrous that the gods feared him above all things. Twice he broke their chains as if they were thread, so the dwarves forged a third from six impossible ingredients: a cat's footfall, a woman's beard, a mountain's roots, a bear's sinews, a fish's breath, a bird's spit. Fenrir sensed the trick and would only wear it if a god placed a hand in his jaws as surety. Only Tyr dared. When the wolf found he could not break free, he closed his jaws, and Tyr lost his hand — a price the Norse still tell as the cost of keeping a promise to a monster."
+      },
+      {
+        "title": "Odin's Eye at Mimir's Well",
+        "body": "Beneath the roots of Yggdrasil sat a well of wisdom, guarded by Mimir, who would grant a drink to any who paid its price. Odin, hungry for knowledge beyond his rule, offered an eye and drank deep. He walked the nine worlds forever after seeing more clearly with one eye than any god could with two, and the well itself was said to hold his reflection still, staring up from the water."
+      },
+      {
+        "title": "The Building of Asgard's Wall",
+        "body": "A builder came to Asgard offering to raise a wall to keep out giants, asking only for the sun, the moon, and the goddess Freyja as payment if he finished in one winter. The gods agreed, certain no one could work so fast — until his stallion Svadilfari hauled stone at an impossible pace. With days to spare, Loki turned himself into a mare to lure the horse away, and the wall was left unfinished, its price unpaid, and nine months later Loki gave birth to an eight-legged foal named Sleipnir."
+      }
+    ]
+  },
+  {
+    "id": "greek",
+    "title": "The Olympian Cycle",
+    "culture": "Greek",
+    "region": "Mediterranean",
+    "spine": "#5a4a3b",
+    "cover": "#443627",
+    "accent": "#e0d4c7",
+    "tales": [
+      {
+        "title": "Prometheus and the Stolen Fire",
+        "body": "Prometheus, a Titan who had sided with the new gods, looked at mortals shivering in the dark and pitied them. He stole a spark from Olympus hidden inside a fennel stalk and carried it down to earth. Zeus, furious that his fire now warmed mortal hearths, chained Prometheus to a mountain where an eagle tore at his liver each day, which grew back each night, an endless punishment for an endless gift."
+      },
+      {
+        "title": "Demeter's Grief",
+        "body": "When Hades dragged Persephone into the underworld, her mother Demeter, goddess of the harvest, wandered the earth in mourning and let every field turn barren. Zeus brokered a compromise: Persephone would spend part of the year below and part above, and Demeter's grief and relief became the turning of the seasons, written into the ground itself every year since."
+      },
+      {
+        "title": "Icarus and the Wax Wings",
+        "body": "Daedalus built wings of feather and wax to escape the island of Crete with his son Icarus, warning him to fly neither too low, where the sea's damp would weigh the feathers down, nor too high, where the sun would melt the wax. Icarus, drunk on the joy of flight, climbed higher and higher until the wax gave way, and he fell into the sea that still carries his name."
+      }
+    ]
+  },
+  {
+    "id": "japanese",
+    "title": "Shadows of the Floating World",
+    "culture": "Japanese",
+    "region": "East Asia",
+    "spine": "#4a2a2a",
+    "cover": "#361d1d",
+    "accent": "#e8c9c9",
+    "tales": [
+      {
+        "title": "The Crane Wife",
+        "body": "A poor man once freed a crane caught in a trap, and that night a woman came to his door asking for shelter. They married, and she wove cloth of astonishing beauty, but only behind a screen she forbade him to look past. He grew greedy and peeked, finding a crane plucking her own feathers to weave the thread. Seen, she could not stay, and she flew from the window, never to return, leaving him with wealth he no longer wanted."
+      },
+      {
+        "title": "Urashima Taro and the Palace Under the Sea",
+        "body": "A fisherman named Urashima Taro rescued a turtle and was carried to an undersea palace where he lived for what felt like three days of feasting. When he returned home, centuries had passed, everyone he knew was long dead. Given a box he was told never to open, he opened it anyway in his grief, and the years he had escaped came for him all at once."
+      },
+      {
+        "title": "The Tanuki's Drum",
+        "body": "A tanuki caught stealing from a farmer's field was spared by a kind old man, and in gratitude the tanuki returned each night to drum on its own swollen belly, filling the house with music. When the old man died, villagers said the drumming could still be heard from the hillside on quiet autumn nights, the tanuki's thanks outliving the debt it was meant to repay."
+      }
+    ]
+  },
+  {
+    "id": "west-african",
+    "title": "The Spider's Web of Stories",
+    "culture": "West African",
+    "region": "Akan and Yoruba lands",
+    "spine": "#4a3a1a",
+    "cover": "#362a12",
+    "accent": "#e8d4a0",
+    "tales": [
+      {
+        "title": "Anansi Buys the Stories",
+        "body": "Long ago every story in the world belonged to the sky god Nyame, and Anansi the spider wanted them for the earth. Nyame set an impossible price: bring him a python, a leopard, a swarm of hornets, and a fairy that could not be caught. Anansi tricked each one in turn, using flattery, a hollow branch, a wet leaf, and a sticky gum doll, and Nyame, delighted by his cunning, handed over every story that has been told since — which is why they are still called Anansi's tales."
+      },
+      {
+        "title": "How Ogun Cleared the Path for the Gods",
+        "body": "When the orisha first tried to descend from the sky to inhabit the earth, they found the way choked with impassable bush. Ogun, god of iron and the forge, was the only one who thought to bring a blade, and he cut a road through the tangle so the others could follow. For this the Yoruba still honor him first at any gathering, the one who opens the way before anyone else can arrive."
+      },
+      {
+        "title": "The Tortoise Who Flew with the Birds",
+        "body": "The tortoise, hearing the birds were invited to a feast in the sky, begged feathers from each of them to make himself wings, then convinced the gathering to share their names before eating — Tortoise announced his own name was 'All of You,' and ate the whole feast for himself when it was served to 'all of you.' Furious, the birds took back their feathers mid-flight and let him fall, which is why a tortoise's shell is said to be cracked and mended to this day."
+      }
+    ]
+  },
+  {
+    "id": "slavic",
+    "title": "The Hut on Chicken Legs",
+    "culture": "Slavic",
+    "region": "Eastern Europe",
+    "spine": "#2a3a2a",
+    "cover": "#1d2a1d",
+    "accent": "#c9e0c9",
+    "tales": [
+      {
+        "title": "Vasilisa and the Doll",
+        "body": "Before she died, Vasilisa's mother gave her a tiny doll and told her to feed it when in need and it would help her. Sent by a cruel stepmother to fetch fire from Baba Yaga's hut, Vasilisa fed the doll each night, and it completed the witch's impossible chores while she slept. Baba Yaga, sensing something uncanny, sent her home with a skull-lantern still burning — light enough to see her stepmother's cruelty clearly, and to finally leave it behind."
+      },
+      {
+        "title": "The Firebird's Feather",
+        "body": "A prince found a single glowing feather from the Firebird in his father's orchard and could not resist bringing it home, though a wise wolf warned him the feather would bring nothing but trouble. Sure enough, the tsar demanded the whole bird, then a horse with a golden mane, then a princess from a distant land, each task harder than the last — and only the wolf's continued help, given freely despite the prince's greed, carried him through to the end."
+      },
+      {
+        "title": "Koschei the Deathless",
+        "body": "Koschei kept his death hidden far from his own body: inside a needle, inside an egg, inside a duck, inside a hare, inside an iron chest, buried under an oak on a distant island. A hero who wanted to defeat him had to hunt down the entire chain, one animal releasing the next, before finally breaking the needle — proof that even a sorcerer who fears nothing must fear the one thing he tried hardest to bury."
+      }
+    ]
+  },
+  {
+    "id": "celtic",
+    "title": "Mist Over the Green Isles",
+    "culture": "Celtic",
+    "region": "Ireland and Britain",
+    "spine": "#1a3a3a",
+    "cover": "#122828",
+    "accent": "#b8dede",
+    "tales": [
+      {
+        "title": "The Salmon of Knowledge",
+        "body": "An old poet spent seven years trying to catch the Salmon of Knowledge, which held all the wisdom of the world in its flesh. When he finally caught it, he gave it to his young servant Fionn to cook, warning him not to eat any of it. Fionn burned his thumb on the skin and, without thinking, put it in his mouth — and in that instant all the salmon's wisdom passed to him instead, thumb and all, for the rest of his life."
+      },
+      {
+        "title": "The Children of Lir",
+        "body": "A jealous stepmother turned the four children of Lir into swans, cursed to wander Ireland's lakes and seas for nine hundred years before the spell could break. They kept their human voices and sang so beautifully that people traveled great distances just to hear them, gaining nothing back but the sound of their own long grief carried on the wind."
+      },
+      {
+        "title": "Cú Chulainn's Single Combat",
+        "body": "When an invading army threatened his homeland, the young warrior Cú Chulainn invoked an ancient right to fight the enemy's champions one at a time at a river ford, holding back an entire army through single combat alone for months while his countrymen mustered. He fought so fiercely in his battle-fury that his own body was said to distort beyond recognition, a warning of what the price of that kind of courage could cost."
+      }
+    ]
+  },
+  {
+    "id": "chinese",
+    "title": "Ledger of the Jade Court",
+    "culture": "Chinese",
+    "region": "East Asia",
+    "spine": "#5a1a1a",
+    "cover": "#3f1212",
+    "accent": "#e8c0a0",
+    "tales": [
+      {
+        "title": "Chang'e and the Moon",
+        "body": "Chang'e's husband Houyi was granted an elixir of immortality for shooting down nine of the ten suns scorching the earth, sparing the last. Fearing what a corrupt king might do with such power, Chang'e swallowed the elixir herself rather than let it fall into the wrong hands, and drifted up to the moon, where she is still honored each autumn with mooncakes and lanterns lit in her name."
+      },
+      {
+        "title": "The Cowherd and the Weaver Girl",
+        "body": "A cowherd fell in love with a weaver girl who was secretly a celestial being, and their happiness angered the Queen Mother of Heaven, who dragged the weaver back to the sky and tore a river of stars between them. Moved by their grief, magpies gather once a year to form a bridge across the Milky Way, letting the two meet for a single night before the stars pull them apart again."
+      },
+      {
+        "title": "The Monkey King's Rebellion",
+        "body": "Born from a stone egg on a mystic mountain, Sun Wukong grew so powerful that he declared himself equal to the gods and stormed the celestial palace demanding a title worthy of his strength. Heaven's armies could not hold him, and only the Buddha himself, folding the Monkey King into his palm with a single unstoppable hand, could finally pin him beneath a mountain for five hundred years to temper his pride."
+      }
+    ]
+  },
+  {
+    "id": "aboriginal",
+    "title": "Songlines of the Dreaming",
+    "culture": "Aboriginal Australian",
+    "region": "Australia",
+    "spine": "#5a3a1a",
+    "cover": "#402910",
+    "accent": "#e8c090",
+    "tales": [
+      {
+        "title": "The Rainbow Serpent's Path",
+        "body": "In the time before time, the Rainbow Serpent moved across a flat and formless land, and wherever its great body pressed the earth, rivers, gorges and waterholes opened behind it. Where it rested, mountains rose from the coiled weight of its sleeping body, and its winding path is still traced today by those who know how to read the shape of the land against the old stories."
+      },
+      {
+        "title": "How the Sun Was Made",
+        "body": "In the earliest dark, an emu egg was thrown into a pile of wood by an angry ancestor spirit, and it struck with such force that the wood burst into flame and lit the whole sky. Seeing how good the light was for hunting and gathering, the spirits agreed to relight the fire every morning after, and that daily lighting is the sunrise the world has kept ever since."
+      },
+      {
+        "title": "The Seven Sisters",
+        "body": "Seven sisters fled across the land and sky from a persistent pursuer, and their long journey shaped waterholes, hills, and rock formations at every place they stopped to rest. Unable to escape him on the ground, they finally rose into the night sky together, becoming the star cluster known elsewhere as the Pleiades, still traveling together, still just out of reach."
+      }
+    ]
+  }
+]

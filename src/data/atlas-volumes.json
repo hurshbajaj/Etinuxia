@@ -1,0 +1,114 @@
+[
+  {
+    "id": "norse",
+    "title": "Tales of the Nine Worlds",
+    "discipline": "Norse · Scandinavia",
+    "note": "Gods and giants, bound by promises kept at a price.",
+    "deck": "From Odin's missing eye to the wolf Fenrir's chain: Norse myths of wisdom bought dearly, kept in every version the telling allows.",
+    "binding": "Storm-grey cloth · silver foil",
+    "format": "148 × 216 mm · imagined edition",
+    "theme": "Nine worlds · wisdom bought dearly",
+    "motif": "The world-tree",
+    "chapters": [
+      "The Binding of Fenrir",
+      "Odin's Eye at Mimir's Well",
+      "The Building of Asgard's Wall"
+    ]
+  },
+  {
+    "id": "greek",
+    "title": "The Olympian Cycle",
+    "discipline": "Greek · Mediterranean",
+    "note": "Gods of Olympus, and the mortals who dared to bargain.",
+    "deck": "Prometheus steals fire, Demeter mourns, Icarus flies too high: Greek tales of gifts that punish the giver, filed beside every variant ending.",
+    "binding": "Olive cloth · gold foil",
+    "format": "156 × 228 mm · imagined edition",
+    "theme": "Olympus · gifts that punish",
+    "motif": "The laurel crown",
+    "chapters": [
+      "Prometheus and the Stolen Fire",
+      "Demeter's Grief",
+      "Icarus and the Wax Wings"
+    ]
+  },
+  {
+    "id": "japanese",
+    "title": "Shadows of the Floating World",
+    "discipline": "Japanese · East Asia",
+    "note": "Cranes, sea palaces and debts that outlive the debtor.",
+    "deck": "A crane wife weaving in secret, a fisherman out of time, a drumming tanuki: Japanese stories where gratitude and greed share one roof.",
+    "binding": "Ink-red cloth · moon-silver foil",
+    "format": "140 × 210 mm · imagined edition",
+    "theme": "Spirits · gratitude and greed",
+    "motif": "The crane's wing",
+    "chapters": [
+      "The Crane Wife",
+      "Urashima Taro and the Palace Under the Sea",
+      "The Tanuki's Drum"
+    ]
+  },
+  {
+    "id": "west-african",
+    "title": "The Spider's Web of Stories",
+    "discipline": "West African · Akan and Yoruba lands",
+    "note": "How Anansi the spider bought every story in the world.",
+    "deck": "A python, a leopard, hornets and a fairy: the price Anansi paid the sky god for every story, with Yoruba and tortoise tales alongside.",
+    "binding": "Ochre cloth · brass foil",
+    "format": "162 × 240 mm · imagined edition",
+    "theme": "Anansi · the price of stories",
+    "motif": "The spider's web",
+    "chapters": [
+      "Anansi Buys the Stories",
+      "How Ogun Cleared the Path for the Gods",
+      "The Tortoise Who Flew with the Birds"
+    ]
+  },
+  {
+    "id": "slavic",
+    "title": "The Hut on Chicken Legs",
+    "discipline": "Slavic · Eastern Europe",
+    "note": "Baba Yaga's hut turns to face the polite, and only them.",
+    "deck": "Vasilisa's doll, a glowing feather, a death hidden in a needle: Slavic tales where the forest tests every visitor's manners first.",
+    "binding": "Pine-green cloth · bone foil",
+    "format": "150 × 220 mm · imagined edition",
+    "theme": "The forest · manners first",
+    "motif": "The chicken-legged hut",
+    "chapters": [
+      "Vasilisa and the Doll",
+      "The Firebird's Feather",
+      "Koschei the Deathless"
+    ]
+  },
+  {
+    "id": "celtic",
+    "title": "Mist Over the Green Isles",
+    "discipline": "Celtic · Ireland and Britain",
+    "note": "Salmon of knowledge, swan-children, one warrior at the ford.",
+    "deck": "Fionn's burnt thumb, four swans singing nine hundred years, Cu Chulainn holding a ford alone: Celtic grief carried on the wind.",
+    "binding": "Sea-mist cloth · copper foil",
+    "format": "146 × 224 mm · imagined edition",
+    "theme": "The isles · grief on the wind",
+    "motif": "The salmon's leap",
+    "chapters": [
+      "The Salmon of Knowledge",
+      "The Children of Lir",
+      "Cu Chulainn's Single Combat"
+    ]
+  },
+  {
+    "id": "chinese",
+    "title": "Ledger of the Jade Court",
+    "discipline": "Chinese · East Asia",
+    "note": "Moon goddesses, weavers, and a monkey who punched heaven.",
+    "deck": "Chang'e rises to the moon, magpies bridge the stars for two lovers, a stone-born monkey storms the palace: order, tested yearly.",
+    "binding": "Cinnabar cloth · jade foil",
+    "format": "158 × 232 mm · imagined edition",
+    "theme": "The jade court · order tested",
+    "motif": "The moon gate",
+    "chapters": [
+      "Chang'e and the Moon",
+      "The Cowherd and the Weaver Girl",
+      "The Monkey King's Rebellion"
+    ]
+  }
+]

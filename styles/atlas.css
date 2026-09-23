@@ -1,0 +1,326 @@
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--black);
+}
+
+.atlas-scene {
+  position: fixed;
+  inset: 0;
+  display: block;
+  cursor: grab;
+}
+
+.atlas-scene.is-dragging {
+  cursor: grabbing;
+}
+
+.atlas-scene.is-hovering {
+  cursor: pointer;
+}
+
+.atlas-head {
+  position: fixed;
+  left: var(--edge);
+  top: var(--edge);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.atlas-back {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+}
+
+.atlas-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  padding: 1px;
+  background: conic-gradient(from 0deg, var(--white) 0deg var(--sweep, 0deg), var(--white-16) var(--sweep, 0deg) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: --sweep 520ms var(--ease-out);
+}
+
+@property --sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.atlas-back:hover::before,
+.atlas-back:focus-visible::before {
+  --sweep: 360deg;
+}
+
+.atlas-back__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--white-64);
+  transition: color 520ms var(--ease-out);
+}
+
+.atlas-back:hover .atlas-back__icon,
+.atlas-back:focus-visible .atlas-back__icon {
+  color: var(--white);
+}
+
+.atlas-mark {
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  text-shadow: var(--shadow);
+}
+
+.atlas-hint {
+  position: fixed;
+  left: 50%;
+  bottom: var(--edge);
+  transform: translateX(-50%);
+  z-index: 20;
+  font-size: 0.8125rem;
+  color: var(--white-64);
+  text-shadow: var(--shadow);
+  transition: opacity 420ms ease;
+  pointer-events: none;
+}
+
+.atlas-hint.is-hidden {
+  opacity: 0;
+}
+
+/* --- reader overlay --- */
+
+.atlas-reader {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+}
+
+.atlas-reader__panel {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  width: min(980px, 94vw);
+  height: min(620px, 86vh);
+  background: rgb(11 11 16 / 0.6);
+  border: 1px solid rgb(255 255 255 / 0.85);
+  border-radius: 20px;
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 320ms ease, transform 320ms var(--ease-out);
+}
+
+.atlas-reader__panel.is-shown {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@property --atlas-panel-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.atlas-reader__panel::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--atlas-panel-angle),
+    transparent 0deg,
+    rgb(0 0 0 / 0.9) 60deg,
+    transparent 160deg,
+    transparent 200deg,
+    rgb(0 0 0 / 0.9) 240deg,
+    transparent 340deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: atlas-panel-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes atlas-panel-spin {
+  to {
+    --atlas-panel-angle: 360deg;
+  }
+}
+
+.atlas-reader__copy {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(880px, 88vw);
+  height: min(540px, 78vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  text-shadow: var(--shadow);
+  transition: opacity 320ms ease;
+}
+
+.atlas-reader__copy.is-shown {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.atlas-reader__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px 16px;
+  border: 1px solid var(--white-40);
+  border-radius: 999px;
+  background: rgb(11 11 16 / 0.7);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--white-80);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.atlas-reader__close:hover {
+  border-color: var(--white);
+  background: var(--white-16);
+  color: var(--white);
+}
+
+.atlas-reader__culture {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--white-64);
+  margin-top: 6px;
+}
+
+.atlas-reader__title {
+  font-weight: 900;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  letter-spacing: -0.02em;
+  margin: 4px 0 18px;
+  text-align: center;
+}
+
+.atlas-reader__title:focus {
+  outline: none;
+}
+
+/* --- the book itself: two stacked, flippable pages --- */
+
+.atlas-book {
+  position: relative;
+  width: min(560px, 78vw);
+  height: 320px;
+  perspective: 1800px;
+}
+
+.atlas-page {
+  position: absolute;
+  inset: 0;
+  padding: 28px 32px;
+  background: #f2ead9;
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgb(0 0 0 / 0.45);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  overflow-y: auto;
+  transition: transform 620ms cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.atlas-page__title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  color: #2a2318;
+  margin-bottom: 10px;
+}
+
+.atlas-page__body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #4a4030;
+}
+
+.atlas-page--turning {
+  z-index: 1;
+}
+
+.atlas-page--front {
+  z-index: 2;
+}
+
+.atlas-page--flip-next {
+  transform: rotateY(-176deg);
+}
+
+.atlas-page--flip-prev {
+  transform: rotateY(176deg);
+}
+
+.atlas-reader__nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.atlas-reader__navbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--white-40);
+  border-radius: 999px;
+  color: var(--white-80);
+  transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+
+.atlas-reader__navbtn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.atlas-reader__navbtn:hover {
+  border-color: var(--white);
+  background: var(--white-16);
+  color: var(--white);
+}
+
+.atlas-reader__navbtn:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.atlas-reader__indicator {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--white-64);
+  min-width: 3em;
+  text-align: center;
+}
