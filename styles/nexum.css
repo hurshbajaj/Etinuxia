@@ -1,0 +1,227 @@
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--black);
+}
+
+.nexum-scene {
+  position: fixed;
+  inset: 0;
+  display: block;
+}
+
+.nexum-sky {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.nexum-sky.is-hover {
+  cursor: pointer;
+}
+
+.nexum-sky.is-grabbing {
+  cursor: grabbing;
+}
+
+.nexum-card {
+  position: fixed;
+  right: calc(var(--edge) + 64px);
+  top: 50%;
+  z-index: 25;
+  width: min(420px, 36vw);
+  max-width: calc(100vw - var(--edge) * 2 - 64px);
+  padding: 30px 30px 28px;
+  border-radius: 20px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+  transform: translate(18px, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 360ms var(--ease-out), transform 360ms var(--ease-out);
+}
+
+.nexum-card.is-shown {
+  opacity: 1;
+  transform: translate(0, -50%);
+  pointer-events: auto;
+}
+
+@property --nexum-card-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.nexum-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--nexum-card-angle),
+    transparent 0deg,
+    var(--white) 60deg,
+    transparent 160deg,
+    transparent 200deg,
+    var(--white) 240deg,
+    transparent 340deg,
+    transparent 360deg
+  );
+  opacity: 0.55;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: nexum-card-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes nexum-card-spin {
+  to {
+    --nexum-card-angle: 360deg;
+  }
+}
+
+.nexum-card__pantheon {
+  font-size: var(--size-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white-64);
+}
+
+.nexum-card__name {
+  margin-top: 6px;
+  font-weight: 900;
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+}
+
+.nexum-card__tag {
+  margin-top: 4px;
+  font-size: var(--size-label);
+  color: var(--white-40);
+  text-transform: capitalize;
+}
+
+.nexum-card__blurb {
+  margin-top: 16px;
+  min-height: 4.8em;
+  font-size: var(--size-body);
+  line-height: 1.6;
+  color: var(--white-80);
+}
+
+.nexum-card__blurb.is-typing::after {
+  content: "";
+  display: inline-block;
+  width: 0.1em;
+  height: 0.85em;
+  margin-left: 0.1em;
+  background: currentColor;
+  animation: caret 640ms steps(1) infinite;
+  vertical-align: -0.1em;
+}
+
+.nexum-card__kin {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nexum-card__kin button {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--white-16);
+  font-size: 0.75rem;
+  color: var(--white-64);
+  transition: background 220ms ease, color 220ms ease;
+}
+
+.nexum-card__kin button:hover,
+.nexum-card__kin button:focus-visible {
+  background: rgb(255 255 255 / 0.3);
+  color: var(--white);
+}
+
+.nexum-head {
+  position: fixed;
+  left: var(--edge);
+  top: var(--edge);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nexum-back {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+}
+
+.nexum-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  padding: 1px;
+  background: conic-gradient(from 0deg, var(--white) 0deg var(--sweep, 0deg), var(--white-16) var(--sweep, 0deg) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: --sweep 520ms var(--ease-out);
+}
+
+@property --sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.nexum-back:hover::before,
+.nexum-back:focus-visible::before {
+  --sweep: 360deg;
+}
+
+.nexum-back__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--white-64);
+  transition: color 520ms var(--ease-out);
+}
+
+.nexum-back:hover .nexum-back__icon,
+.nexum-back:focus-visible .nexum-back__icon {
+  color: var(--white);
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.nexum-mark {
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  text-shadow: var(--shadow);
+}

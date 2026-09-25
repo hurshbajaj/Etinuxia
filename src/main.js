@@ -48,13 +48,26 @@ async function start() {
       if (spot.goes) {
         return holds[director.indexOf(spot.goes)].title;
       }
-      return spot.opens === "qilin" ? "Etidex" : entries[spot.opens].title;
+      if (spot.opens === "qilin") {
+        return "Etidex";
+      }
+      if (spot.opens === "anansi") {
+        return "Atlas";
+      }
+      if (spot.opens === "egyptian") {
+        return "Nexum";
+      }
+      return entries[spot.opens].title;
     },
     onSelect: (spot) => {
       if (spot.goes) {
         director.goTo(director.indexOf(spot.goes));
       } else if (spot.opens === "qilin") {
         goToEtidex();
+      } else if (spot.opens === "anansi") {
+        goToAtlas();
+      } else if (spot.opens === "egyptian") {
+        goToNexum();
       } else {
         openEntry(spot.opens);
       }
@@ -78,6 +91,12 @@ async function start() {
     window.location.href = "atlas.html";
   }
 
+  async function goToNexum() {
+    await coverWithPixels();
+    sessionStorage.setItem("nexum:enter", "pixel");
+    window.location.href = "nexum.html";
+  }
+
   async function closeEntry() {
     if (!copy.entry || director.busy) {
       return;
@@ -96,10 +115,13 @@ async function start() {
     copy.showHold(hold);
   }
 
+  $("[data-wordmark]").addEventListener("click", () => director.goTo(0));
+
   stage.onAmbientFrame = (frame) => hotspots.follow(frame);
   copy.back.addEventListener("click", closeEntry);
   copy.etidex.addEventListener("click", goToEtidex);
   copy.atlasLink.addEventListener("click", goToAtlas);
+  copy.nexumLink.addEventListener("click", goToNexum);
   director.addEventListener("leave", () => {
     document.body.classList.add("is-moving");
     copy.hide();

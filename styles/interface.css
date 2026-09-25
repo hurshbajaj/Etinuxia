@@ -11,6 +11,7 @@
 }
 
 .wordmark {
+  pointer-events: auto;
   font-weight: 900;
   font-size: 1.125rem;
   letter-spacing: -0.02em;

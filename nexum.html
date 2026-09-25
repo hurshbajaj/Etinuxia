@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Nexum — Etinuxia</title>
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23000'/%3E%3Ccircle cx='50' cy='50' r='42' fill='none' stroke='%23fff' stroke-width='6'/%3E%3C/svg%3E">
+    <link rel="preload" href="assets/fonts/Satoshi-Black.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/Satoshi-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/nexum.css">
+    <script type="module" src="src/nexum.js"></script>
+  </head>
+  <body>
+    <div class="nexum-scene" data-scene></div>
+    <canvas class="nexum-sky" data-sky></canvas>
+
+    <header class="nexum-head">
+      <button class="nexum-back" type="button" data-nexum-back aria-label="Back to Etinuxia">
+        <svg class="nexum-back__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p class="nexum-mark">Nexum</p>
+    </header>
+
+    <aside class="nexum-card" data-card hidden>
+      <p class="nexum-card__pantheon" data-card-pantheon></p>
+      <h2 class="nexum-card__name" data-card-name></h2>
+      <p class="nexum-card__tag" data-card-tag></p>
+      <p class="nexum-card__blurb" data-card-blurb></p>
+      <div class="nexum-card__kin" data-card-kin></div>
+    </aside>
+  </body>
+</html>

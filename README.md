@@ -10,7 +10,7 @@ The home stop plays a seamless 16-second loop: Earth turns once and the station 
 npm run dev
 ```
 
-Open http://localhost:5173. Node 18+ with no dependencies; any static server works too.
+Open http://localhost:5173. Node 18+; three.js and ogl load from esm.sh, no install step. Any static server works too.
 
 The media in `media/` is a grey clay preview so the site runs out of the box. Render the real thing below.
 

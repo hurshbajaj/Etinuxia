@@ -14,6 +14,7 @@ export class Copy {
     this.back = root.querySelector("[data-copy-back]");
     this.etidex = root.querySelector("[data-copy-etidex]");
     this.atlasLink = root.querySelector("[data-copy-atlas]");
+    this.nexumLink = root.querySelector("[data-copy-nexum]");
     this.motion = reducedMotion ? 0 : 1;
     this.entry = null;
   }
@@ -35,6 +36,7 @@ export class Copy {
       this.#reveal(hold.lede);
       this.etidex.hidden = hold.id !== "bestiary";
       this.atlasLink.hidden = hold.id !== "atlas";
+      this.nexumLink.hidden = hold.id !== "pantheons";
     }
   }
 
@@ -50,6 +52,7 @@ export class Copy {
     this.root.classList.remove("is-hero");
     this.etidex.hidden = true;
     this.atlasLink.hidden = true;
+    this.nexumLink.hidden = true;
     this.#fillFacts(entry.facts);
     this.back.textContent = `Back to ${hold.title}`;
     await typeInto(this.title, entry.title, { delay: TYPE_MS * this.motion, token });
@@ -80,6 +83,7 @@ export class Copy {
       this.#reveal(hold.lede);
       this.etidex.hidden = hold.id !== "bestiary";
       this.atlasLink.hidden = hold.id !== "atlas";
+      this.nexumLink.hidden = hold.id !== "pantheons";
     }
   }
 
@@ -98,6 +102,7 @@ export class Copy {
     this.back.hidden = true;
     this.etidex.hidden = true;
     this.atlasLink.hidden = true;
+    this.nexumLink.hidden = true;
   }
 
   #fillFacts(facts) {
