@@ -103,8 +103,6 @@ body {
   opacity: 0;
 }
 
-/* --- reader overlay --- */
-
 .atlas-reader {
   position: fixed;
   inset: 0;
@@ -228,8 +226,6 @@ body {
 .atlas-reader__title:focus {
   outline: none;
 }
-
-/* --- the book itself: two stacked, flippable pages --- */
 
 .atlas-book {
   position: relative;

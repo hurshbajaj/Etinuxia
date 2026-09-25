@@ -62,9 +62,6 @@ function randomIndex() {
   return String(Math.floor(Math.random() * 100000)).padStart(5, "0");
 }
 
-// --- per-card sprite animation: only ticks for cards in view, hovered card
-// stays at full framerate, other visible cards run at half framerate ---
-
 const visibleSprites = new Set();
 let hoveredSprite = null;
 let tick = 0;
@@ -222,9 +219,6 @@ function render(reset = true) {
     return;
   }
   appendCards(nextBatch(BATCH_SIZE));
-  // force a fresh intersection check: IntersectionObserver only fires on
-  // enter/exit transitions, so re-observing after growing the list is the
-  // only way to know whether the sentinel is still in view right now.
   sentinelObserver.unobserve(sentinel);
   sentinelObserver.observe(sentinel);
 }
@@ -413,13 +407,6 @@ filtersClear.addEventListener("click", () => {
   renderActiveFilters();
 });
 
-document.querySelectorAll("[data-view-mode]").forEach((btn) => {
-  btn.addEventListener("click", () => closeFilters());
-});
-
-// --- expanded card view: the clicked card grows into a detail panel while
-// the main window fades away, then the description types itself out ---
-
 const DETAIL_SIZE = 260;
 const DETAIL_GAP = 40;
 const DETAIL_PAD = 40;
@@ -504,9 +491,6 @@ function fillDetailCopy(beast) {
 async function openDetail(beast, sourceCard) {
   typeToken.cancelled = true;
 
-  // switching between beasts while the panel is already open: hide the old
-  // text first and wait for that to finish, so the content swap happens at
-  // the invisible midpoint instead of popping in before the slide-out plays
   const switchingBeast = detailCopy.classList.contains("is-shown");
   if (switchingBeast) {
     detailCopy.classList.remove("is-shown");
@@ -536,13 +520,8 @@ async function openDetail(beast, sourceCard) {
 
   fillDetailCopy(beast);
 
-  // force layout so the start rect commits before switching to the target,
-  // otherwise the browser coalesces both states and skips the transition
   detailSprite.getBoundingClientRect();
 
-  // computed directly (not read off the panel element) since the panel is
-  // still mid-transform at this point and getBoundingClientRect() would
-  // return its scaled-down opening size, not its settled target size
   const panelWidth = Math.min(940, window.innerWidth * 0.92);
   const panelHeight = Math.min(560, window.innerHeight * 0.84);
   const panelLeft = (window.innerWidth - panelWidth) / 2;

@@ -1,10 +1,5 @@
 import { Renderer, Program, Triangle, Mesh } from "https://esm.sh/ogl@1.0.11";
 
-// reactbits.dev "Light Rays" (side-rays preset), copied line-to-line:
-// https://reactbits.dev/backgrounds/side-rays
-// React hooks/JSX swapped for a plain function + cleanup closure since
-// this site has no build step; the ogl calls and GLSL are verbatim.
-
 const DEFAULT_COLOR = "#ffffff";
 
 const hexToRgb = hex => {
@@ -29,7 +24,7 @@ const getAnchorAndDir = (origin, w, h) => {
       return { anchor: [0.5 * w, (1 + outside) * h], dir: [0, -1] };
     case "bottom-right":
       return { anchor: [w, (1 + outside) * h], dir: [0, -1] };
-    default: // "top-center"
+    default:
       return { anchor: [0.5 * w, -outside * h], dir: [0, 1] };
   }
 };

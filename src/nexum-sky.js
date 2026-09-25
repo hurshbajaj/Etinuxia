@@ -287,6 +287,13 @@ export function createSky(canvas, { onFocus, onUnfocus } = {}) {
     }
   }
 
+  function headerY() {
+    const mark = document.querySelector(".nexum-mark");
+    if (!mark) return 46;
+    const r = mark.getBoundingClientRect();
+    return r.top + r.height / 2;
+  }
+
   function drawFocused() {
     const { t, cluster, cx, cy, s, pts } = focusLayout();
 
@@ -330,8 +337,10 @@ export function createSky(canvas, { onFocus, onUnfocus } = {}) {
       }
       ctx.font = "900 20px var(--font, sans-serif)";
       ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
       ctx.fillStyle = "rgba(255,255,255,0.9)";
-      ctx.fillText(cluster.pantheon.name.toUpperCase(), cx, cy - clusterMaxRel(cluster) * s - 34);
+      ctx.fillText(cluster.pantheon.name.toUpperCase(), cx, headerY());
+      ctx.textBaseline = "alphabetic";
       ctx.globalAlpha = 1;
     }
   }
@@ -547,9 +556,7 @@ export function createSky(canvas, { onFocus, onUnfocus } = {}) {
     canvas.classList.remove("is-grabbing");
     try {
       canvas.releasePointerCapture(event.pointerId);
-    } catch {
-      // ignore
-    }
+    } catch {}
 
     if (moved < CLICK_SLOP) {
       const hit = hitTest(event.clientX, event.clientY);

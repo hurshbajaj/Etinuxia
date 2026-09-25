@@ -313,38 +313,6 @@ body {
   box-shadow: 0 0 0 6px rgb(255 255 255 / 0.2);
 }
 
-.etidex-filters__group--views {
-  padding-top: 4px;
-  border-top: 1px solid var(--white-16);
-}
-
-.etidex-filters__views {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.etidex-filters__view {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 10px;
-  border: 1px solid var(--white-16);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  color: var(--white-64);
-}
-
-.etidex-filters__view span {
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--white-40);
-  border: 1px solid var(--white-16);
-  border-radius: 999px;
-  padding: 2px 6px;
-}
-
 .etidex-filters__clear {
   align-self: flex-start;
   font-size: 0.8125rem;

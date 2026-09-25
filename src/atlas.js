@@ -31,11 +31,6 @@ const prevBtn = document.querySelector("[data-page-prev]");
 const nextBtn = document.querySelector("[data-page-next]");
 const indicator = document.querySelector("[data-page-indicator]");
 
-// --- renderer / scene / camera ---
-// lighting rig, fog and PMREM environment reflections are adapted from
-// github.com/MengTo/complete-shelf, which builds a studio-photography-style
-// multi-light setup rather than a single flat headlight
-
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -62,8 +57,6 @@ const HOME_POS = new THREE.Vector3(0, 2.1, 8.6);
 const HOME_TARGET = new THREE.Vector3(0, 1.55, 0);
 camera.position.copy(HOME_POS);
 
-// --- studio light rig: hemisphere ambient, a shadow-casting key light, a
-// soft rectangular "softbox" key, a cool fill and a warm rim ---
 scene.add(new THREE.HemisphereLight(0x4a4238, 0x0a0806, 0.6));
 
 const keyLight = new THREE.DirectionalLight(0xffe9c4, 1.35);
@@ -94,9 +87,6 @@ const rimLight = new THREE.RectAreaLight(0xd8ae70, 3, 1.4, 5);
 rimLight.position.set(4.2, 3.8, -1.6);
 rimLight.lookAt(0, 1.6, 0);
 scene.add(rimLight);
-
-// --- room: floor, backdrop wall, walnut shelf, contact-shadow strip ---
-// gives the scene real depth instead of books floating in a flat void
 
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(1, 1),
@@ -164,7 +154,6 @@ contactShadow.rotation.x = -Math.PI / 2;
 contactShadow.position.set(0, 0.51, 0.1);
 scene.add(contactShadow);
 
-// floating dust motes for atmosphere
 {
   const DUST_COUNT = 90;
   const positions = new Float32Array(DUST_COUNT * 3);
@@ -206,11 +195,6 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// --- book construction ---
-// a rounded-edge shell (cover) plus a separate inset page-block, both in
-// MeshPhysicalMaterial with sheen so cloth and paper actually catch the
-// studio lights and the room-environment reflections above
-
 const BOOK_WIDTH = 0.5;
 const BOOK_HEIGHT = 2.3;
 const BOOK_DEPTH = 1.5;
@@ -241,8 +225,6 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
   lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
 }
 
-// one shared cloth-weave bump map, reused (tiled) across every book cover so
-// we're not generating a full normal map per book
 const CLOTH_BUMP = new THREE.CanvasTexture((() => {
   const c = makeCanvas(128, 128);
   const ctx = c.getContext("2d");
@@ -332,7 +314,6 @@ function makeBookMaterials(data) {
   const coverMat = new THREE.MeshPhysicalMaterial({ ...clothBase, map: coverTex });
   const spineMat = new THREE.MeshPhysicalMaterial({ ...clothBase, map: spineTex, side: THREE.DoubleSide });
 
-  // RoundedBoxGeometry keeps BoxGeometry's face-group order: +X, -X, +Y, -Y, +Z, -Z
   return [coverMat, plainMat, plainMat, plainMat, spineMat, plainMat];
 }
 
@@ -344,8 +325,6 @@ const PAGE_MATERIAL = new THREE.MeshPhysicalMaterial({
   sheenRoughness: 0.9,
 });
 
-// fore-edge of the page block: faint vertical striations so the stacked
-// sheets read as individual leaves rather than one solid slab
 const PAGE_EDGE_MAP = new THREE.CanvasTexture((() => {
   const c = makeCanvas(256, 8);
   const ctx = c.getContext("2d");
@@ -397,21 +376,6 @@ function makeEndpaperMaterial(data) {
   });
 }
 
-// A book is built as a hinged rig rather than one solid box:
-//
-//   root            placement on the shelf
-//    └ motion       idle sway + hover offsets
-//       ├ spine     cloth-wrapped, faces the viewer on the shelf
-//       ├ backBoard
-//       ├ frontPivot   hinge at the spine edge — this is what cracks open
-//       │   ├ frontBoard
-//       │   └ frontEndpaper
-//       ├ pageBlock + fore/head/tail edges
-//       ├ headbands (top + bottom of the spine)
-//       └ ribbon
-//
-// Local axes: X = cover-to-cover thickness, Y = height, Z = page depth,
-// with the spine at +Z so it faces out when shelved.
 function buildBookRig(data) {
   const root = new THREE.Group();
   const motion = new THREE.Group();
@@ -431,8 +395,6 @@ function buildBookRig(data) {
   backBoard.receiveShadow = true;
   motion.add(backBoard);
 
-  // front cover lives under a pivot placed on the spine edge, so rotating
-  // the pivot swings the board open exactly like a real hinge
   const frontPivot = new THREE.Group();
   frontPivot.position.set(boardInset, 0, hingeZ);
   motion.add(frontPivot);
@@ -472,7 +434,6 @@ function buildBookRig(data) {
   pageBlock.receiveShadow = true;
   motion.add(pageBlock);
 
-  // striated fore-edge (opposite the spine) and the head/tail edges
   const foreEdge = new THREE.Mesh(new THREE.PlaneGeometry(pageW, pageH), PAGE_EDGE_MATERIAL);
   foreEdge.rotation.y = Math.PI;
   foreEdge.position.set(0, 0, pageBlock.position.z - pageD / 2 - 0.001);
@@ -485,7 +446,6 @@ function buildBookRig(data) {
     motion.add(edge);
   });
 
-  // headbands: the small woven caps at the head and tail of a bound spine
   const headbandMat = new THREE.MeshPhysicalMaterial({
     color: new THREE.Color(data.accent),
     roughness: 0.6,
@@ -559,8 +519,6 @@ async function buildBooks(booksData) {
     return group;
   });
 }
-
-// --- selection state + tween ---
 
 const OPEN_POS = new THREE.Vector3(0, 1.75, 4.7);
 const OPEN_ROT_Y = -Math.PI / 2;
@@ -668,8 +626,6 @@ function tickSelection(dt) {
   mesh.rotation.y = THREE.MathUtils.lerp(fromRotY, toRotY, e);
   mesh.rotation.z = THREE.MathUtils.lerp(fromRotZ, toRotZ, e);
 
-  // the front board swings open as the book leaves the shelf, and shuts
-  // again on the way back — the hinge is what sells it as a real object
   const ud = mesh.userData;
   ud.frontPivot.rotation.y = THREE.MathUtils.lerp(
     animDir === 1 ? 0 : -2.1,
@@ -702,14 +658,11 @@ function animateIdleBooks(dt, elapsed) {
     const ud = mesh.userData;
     ud.hoverLerp = THREE.MathUtils.damp(ud.hoverLerp, ud.hoverTarget, 6, dt);
 
-    // each book breathes on its own phase so the shelf never looks frozen
     const breathe = Math.sin(elapsed * 0.7 + index * 0.85) * 0.012;
     mesh.position.y = ud.home.position.y + ud.hoverLerp * 0.14 + breathe;
     mesh.position.z = ud.home.position.z + ud.hoverLerp * 0.16;
     mesh.rotation.z = ud.home.rotationZ - ud.hoverLerp * 0.05;
 
-    // hovering cracks the front board open on its hinge and lets the book
-    // lean very slightly toward the pointer, like it is being picked up
     ud.frontPivot.rotation.y = THREE.MathUtils.damp(
       ud.frontPivot.rotation.y,
       ud.hoverLerp * -0.30,
@@ -730,8 +683,6 @@ function animateIdleBooks(dt, elapsed) {
     );
   });
 }
-
-// --- reader UI: culture facts + flipping page spread ---
 
 function renderTaleInto(el, tale) {
   el.replaceChildren();
@@ -857,8 +808,6 @@ document.addEventListener("keydown", (event) => {
     turnPage(-1);
   }
 });
-
-// --- boot ---
 
 const clock = new THREE.Clock();
 function renderLoop() {

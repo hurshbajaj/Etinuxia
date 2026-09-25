@@ -1,7 +1,3 @@
-// Deity domains are drawn from public mythological record. One line each —
-// name plus the archetype tag used to thread matching domains across
-// pantheons in the sky. Blurbs are original summaries, not quotations.
-
 export const PANTHEONS = [
   { id: "greek", name: "Greek", color: "#9fc2ff",
     blurb: "Seated on Olympus, the Greek gods ruled a cosmos split three ways between sky, sea and underworld, and quarreled among mortals as often as they governed them.",
